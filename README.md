@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GolfGives — Golf Charity Subscription Platform
 
-## Getting Started
+Live: https://golf-charity-platform-phi.vercel.app
 
-First, run the development server:
+## Overview
+A subscription-based golf platform combining performance tracking, charity fundraising, and a monthly draw-based reward engine.
 
+## Tech Stack
+- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS, Framer Motion
+- **Backend**: Supabase (PostgreSQL + Auth + RLS)
+- **Payments**: Mock payment system (Stripe-ready)
+- **Deployment**: Vercel
+
+## Architecture Decisions
+
+### Rolling 5-score window
+Handled via a Postgres trigger (`enforce_score_limit`) — not application code. This ensures the constraint holds regardless of how data is inserted.
+
+### Score snapshot in draw entries
+When a draw runs, user scores are copied into `score_snapshot`. This means scores can change after draw entry without affecting results — correct and auditable.
+
+### Draw engine
+Two modes supported:
+- **Random**: Standard lottery — 5 unique numbers from 1–45
+- **Algorithmic**: Weighted by score frequency across all entries — numbers that appear most in user scores have higher probability
+
+### Prize pool calculation
+- 5-match: 40% of pool (jackpot rolls over if unclaimed)
+- 4-match: 35% of pool
+- 3-match: 25% of pool
+
+### Row Level Security
+All tables have RLS enabled. Users can only access their own data. Admin operations use service role key server-side.
+
+## Database Schema
+9 tables: users, subscriptions, golf_scores, charities, user_charity_selections, draws, draw_entries, winners, prize_pool_config
+
+## Features
+- Subscription management (monthly/yearly)
+- Rolling 5-score Stableford tracking
+- Monthly draw system with simulation mode
+- Charity selection with adjustable contribution %
+- Winner verification workflow
+- Full admin dashboard with analytics
+
+## Test Credentials
+- User: signup at /signup
+- Admin: set role = 'admin' in Supabase users table
+
+## Local Setup
 ```bash
+git clone https://github.com/YOUR_USERNAME/golf-charity-platform
+cd golf-charity-platform
+npm install
+cp .env.local.example .env.local
+# Fill in Supabase + Stripe keys
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## PRD Compliance
+- Subscription engine with monthly/yearly plans
+- Score entry — 5-score rolling logic with Postgres trigger
+- Draw system — random + algorithmic modes
+- Charity integration — min 10% contribution
+- Winner verification flow
+- Admin dashboard — full control
+- Mobile-first responsive design
