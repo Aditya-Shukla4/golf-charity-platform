@@ -23,6 +23,7 @@ const NAV = [
   { href: "/dashboard/scores", icon: Target, label: "My Scores" },
   { href: "/dashboard/charity", icon: Heart, label: "My Charity" },
   { href: "/dashboard/draws", icon: Trophy, label: "Draws" },
+  { href: "/dashboard/winners", icon: Trophy, label: "My Winnings" },
   { href: "/dashboard/subscribe", icon: CreditCard, label: "Subscription" },
 ];
 
