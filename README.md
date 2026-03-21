@@ -49,7 +49,7 @@ All tables have RLS enabled. Users can only access their own data. Admin operati
 
 ## Local Setup
 ```bash
-git clone https://github.com/YOUR_USERNAME/golf-charity-platform
+git clone https://github.com/Aditya-Shukla4/golf-charity-platform
 cd golf-charity-platform
 npm install
 cp .env.local.example .env.local
