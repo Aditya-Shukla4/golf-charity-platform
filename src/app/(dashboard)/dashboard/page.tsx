@@ -44,11 +44,10 @@ export default async function DashboardPage() {
           Welcome back, {profile?.full_name?.split(" ")[0] || "Golfer"} 👋
         </h1>
         <p className="text-gray-400 text-sm mt-1">
-          Here's your GolfGives overview
+          Here&apos;s your GolfGives overview
         </p>
       </div>
 
-      {/* Subscription alert */}
       {!isActive && (
         <div className="flex items-center gap-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4">
           <AlertCircle className="w-5 h-5 text-yellow-400 shrink-0" />
@@ -69,7 +68,6 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      {/* Stat cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           {
@@ -205,6 +203,44 @@ export default async function DashboardPage() {
           </div>
         </div>
       )}
+
+      {/* Participation summary */}
+      <div className="glass rounded-2xl p-6 border border-white/5">
+        <h2 className="font-semibold text-white mb-4">Draw participation</h2>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-white/3 rounded-xl p-4 text-center">
+            <p className="text-2xl font-bold text-purple-400">
+              {scores && scores.length >= 3 ? "✓" : (scores?.length ?? 0)}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              {scores && scores.length >= 3
+                ? "Draw eligible"
+                : `Need ${3 - (scores?.length ?? 0)} more scores`}
+            </p>
+          </div>
+          <div className="bg-white/3 rounded-xl p-4 text-center">
+            <p className="text-2xl font-bold text-green-400">
+              {new Date().toLocaleString("default", { month: "long" })}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">Next draw month</p>
+          </div>
+        </div>
+        {isActive && scores && scores.length >= 3 ? (
+          <div className="mt-3 bg-green-500/10 border border-green-500/20 rounded-xl p-3 text-center">
+            <p className="text-xs text-green-400 font-medium">
+              You are entered in this month&apos;s draw!
+            </p>
+          </div>
+        ) : (
+          <div className="mt-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 text-center">
+            <p className="text-xs text-yellow-400">
+              {!isActive
+                ? "Subscribe to enter draws"
+                : "Add at least 3 scores to enter the draw"}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

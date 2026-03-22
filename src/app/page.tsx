@@ -382,6 +382,81 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Featured Charities */}
+      <section className="py-24 px-6 border-t border-white/5">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Charities you&apos;ll support
+            </h2>
+            <p className="text-gray-400 max-w-xl mx-auto">
+              Every subscription directly funds one of these verified
+              organisations
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                name: "CRY — Child Rights and You",
+                desc: "Working to ensure lasting change in the lives of underprivileged children across India.",
+                color: "border-pink-500/20 bg-pink-500/5",
+                text: "text-pink-400",
+              },
+              {
+                name: "Smile Foundation",
+                desc: "Empowering underprivileged children, youth and women through education and healthcare.",
+                color: "border-yellow-500/20 bg-yellow-500/5",
+                text: "text-yellow-400",
+              },
+              {
+                name: "Akshaya Patra",
+                desc: "Mid-day meal programme serving millions of school children across India daily.",
+                color: "border-green-500/20 bg-green-500/5",
+                text: "text-green-400",
+              },
+            ].map((charity, i) => (
+              <motion.div
+                key={charity.name}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                className={`rounded-2xl border p-6 ${charity.color}`}
+              >
+                <div
+                  className={`w-10 h-10 rounded-xl ${charity.color} border flex items-center justify-center mb-4`}
+                >
+                  <Heart className={`w-5 h-5 ${charity.text}`} />
+                </div>
+                <h3 className="font-semibold text-white mb-2">
+                  {charity.name}
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  {charity.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="text-center text-gray-500 text-sm mt-8"
+          >
+            + 3 more charities available on the platform
+          </motion.p>
+        </div>
+      </section>
+
       {/* Footer CTA */}
       <section className="py-24 px-6 text-center border-t border-white/5">
         <motion.div
